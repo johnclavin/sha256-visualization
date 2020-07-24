@@ -127,7 +127,6 @@ class Sha256 {
         break;
     }
 
-    // constants [§4.2.2]
     const K = [
       0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
       0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
@@ -139,12 +138,9 @@ class Sha256 {
       0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
     ];
 
-    // initial hash value [§5.3.3]
     const H = [
       0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     ];
-
-    // PREPROCESSING [§6.2.1]
 
     msg += String.fromCharCode(0x80); // add trailing '1' bit (+ 0's padding) to string [§5.1.1]
 
@@ -168,13 +164,9 @@ class Sha256 {
     M[N - 1][14] = Math.floor(lenHi);
     M[N - 1][15] = lenLo;
 
-
-    // HASH COMPUTATION [§6.2.2]
-
     for (let i = 0; i < N; i++) {
       const W = new Array(64);
 
-      // 1 - prepare message schedule 'W'
       for (let t = 0; t < 16; t++) W[t] = M[i][t];
       for (let t = 16; t < 64; t++) {
         W[t] = (Sha256.σ1(W[t - 2]) + W[t - 7] + Sha256.σ0(W[t - 15]) + W[t - 16]) >>> 0;
